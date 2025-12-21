@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  mongo:
+    image: mongo:latest
+    container_name: ubisoft-mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - ubisoft-network
+
+  scraper:
+    build: ./scraper
+    container_name: ubisoft-scraper
+    depends_on:
+      - mongo
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/
+    volumes:
+      - ./scraper:/app
+    networks:
+      - ubisoft-network
+
+  app:
+    build: ./app
+    container_name: ubisoft-app
+    ports:
+      - "8501:8501"
+    depends_on:
+      - mongo
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/
+    volumes:
+      - ./app:/app
+    networks:
+      - ubisoft-network
+
+volumes:
+  mongo_data:
+
+
+networks:
+  ubisoft-network:
+    driver: bridge
