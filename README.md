@@ -7,13 +7,15 @@ Il s'appuie sur une architectre de conteneurs pour garantir la portabilité et l
 
 ## Choix techniques
 
-Stack Logistique & Backend :
+La conception de ce projet s'est faite sur une stack technologique moderne : 
 
--- Python : Langage unique pour le scraper et l'interface.
+--> Pour le développement du scraper et l'interface utilisateur, nous avons opté pour le langage Python. Ce choix a facilité la maintenance et la partage de bibilothèques entre différents modules. On a pu également utiliser la framework Streamlit afin de concevoir rapidement des scripts Python en applications web interactives.
 
--- MongoDB : Choix d'une base NoSQL pour sa flexibilité face aux schémas de données de jeux (certains jeux ayant plus de métadonnées que d'autres).
+--> Concernant le stockage des informations, nous utilisons MongoDB. Cette base de données de type NoSQL a été privilégiée pour sa flexibilité. On peut ainsi gérer un ensemble de données variables, ce qui est essentiel ici puisque certains jeux extraits possèdent des métadonnées plus riches. 
 
--- Docker & Docker-Compose : Orchestration de trois services (Scraper, Database, App) pour un déploiement "one-click".
+--> Enfin, l'intégralité de la solution est pilotée par Docker et Docker-Compose. Cela permet l'orchestration de 3 services essentiels : le moteur de scraping, la base de données et l'application. 
+-- Docker & Docker-Compose : Orchestration de trois services (Scraper, Database, App) pour un déploiement "one-click". On garantit l'adaptabilité du projet sur n'importe quelle machine, offrant ainsi un déploiement "one-click" rapide et sans erreurs de configuration. 
+
 ## Architecture globale
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Project
 |-- scraper
@@ -103,8 +105,6 @@ On peut aller encore plus loin avec ce projet. En effet, toutes les étapes effe
 
 C'est pourquoi on décide d'ajouter un fichier <strong>docker-compose</strong>. Cette composante dite "multi-service" va permettre non lancer d'automatiser notre dashboard grâce à <strong>une seule commande</strong>, mais aussi à garder en mémoire nos jeux scrappés. 
 
-### Services
-
-On fait appel au différents services : mongo pour la base de données, scraper pour extraire, et app pour lancer le dashboard. 
+On fait alors appel au différents services : mongo pour la base de données, scraper pour extraire, et app pour lancer le dashboard. 
 
 Avec cette structure, votre projet répond parfaitement aux exigences professionnelles : isolation, reproductibilité et facilité de déploiement.
