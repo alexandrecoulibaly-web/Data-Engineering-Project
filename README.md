@@ -9,19 +9,18 @@ Il s'appuie sur une architectre de conteneurs pour garantir la portabilité et l
 
 La conception de ce projet s'est faite sur une stack technologique moderne : 
 
---> Pour le développement du scraper et l'interface utilisateur, nous avons opté pour le langage Python. Ce choix a facilité la maintenance et la partage de bibilothèques entre différents modules. On a pu également utiliser la framework Streamlit afin de concevoir rapidement des scripts Python en applications web interactives.
+--> Pour le développement du scraper et l'interface utilisateur, nous avons opté pour le <strong>langage Python</strong>. Ce choix a facilité la maintenance et la partage de bibilothèques entre différents modules. On a pu également utiliser la <strong>framework Streamlit</strong> afin de concevoir rapidement des scripts Python en applications web interactives.
 
---> Concernant le stockage des informations, nous utilisons MongoDB. Cette base de données de type NoSQL a été privilégiée pour sa flexibilité. On peut ainsi gérer un ensemble de données variables, ce qui est essentiel ici puisque certains jeux extraits possèdent des métadonnées plus riches. 
+--> Concernant le stockage des informations, nous utilisons <strong>MongoDB</strong>. Cette base de données de type NoSQL a été privilégiée pour sa flexibilité. On peut ainsi gérer un ensemble de données variables, ce qui est essentiel ici puisque certains jeux extraits possèdent des métadonnées plus riches. 
 
---> Enfin, l'intégralité de la solution est pilotée par Docker et Docker-Compose. Cela permet l'orchestration de 3 services essentiels : le moteur de scraping, la base de données et l'application. 
--- Docker & Docker-Compose : Orchestration de trois services (Scraper, Database, App) pour un déploiement "one-click". On garantit l'adaptabilité du projet sur n'importe quelle machine, offrant ainsi un déploiement "one-click" rapide et sans erreurs de configuration. 
+--> Enfin, l'intégralité de la solution est pilotée par <strong>Docker et Docker-Compose</strong>. Cela permet l'orchestration de 3 services essentiels : le moteur de scraping, la base de données et l'application. Tout est alors automatisé à partir d'un seul clic. On garantit l'adaptabilité du projet sur n'importe quelle machine, offrant ainsi un déploiement "one-click" rapide et sans erreurs de configuration. 
 
 ## Architecture globale
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Project
 |-- scraper
 │   │-- Dockerfile
 │   │-- main.py             # Script de scraping, nettoyage et injection Mongo
-│   │-- requirements.txt
+│   │-- requirements.txt    # Dépendances
 │-- app
 │   │-- Dockerfile
 │   │-- main.py             # Application Streamlit
@@ -40,7 +39,8 @@ Pour pouvoir lancer le scraping et l'application :
 
 <strong>2</strong>  - Cloner le projet dans votre environnement local : 
 
-<div class="highlight"><pre><span></span>$ git clone https://github.com/<Nom-du-repo>/Data-Engineering-Project.git
+<div class="highlight"><pre><span></span>$ git clone https://github.com/Keli-LYU/Data-Engineering-Project.git
+  cd Data-Engineering-Project
 </pre></div>
 
 <strong>3</strong>  - Lancer l'environnement : 
@@ -58,7 +58,7 @@ Notre projet est constitué de <strong>2 dossiers principaux :</strong>
 
 ### Scraper : le scraping
 
-Ce dossier constitue le moteur de données du projet. Son rôle est de naviguer sur le web, d'extraire les informations pertinentes du site Ubisoft et de les transformer pour ainsi, mieux les exploiter par la suite. 
+Ce dossier constitue le <strong>moteur de données du projet</strong>. Son rôle est de naviguer sur le web, d'extraire les informations pertinentes du site Ubisoft et de les transformer pour ainsi, mieux les exploiter par la suite. 
 
 #### main.py : Fichier principal
 
@@ -80,11 +80,11 @@ Le script est divisé en plusieurs étapes clés pour transformer la page web br
 
 <i>--> <strong>filter_on_sale_games()</strong> : Fonction qui calcule le pourcentage de réduction pour un jeu en promotion. </i>
 
-<strong>4</strong>- Une fois ces étapes terminés, on obtient alors un scraping complet de la page web. 
+<strong>==> Une fois ces étapes terminés, on obtient alors un scraping complet de la page web.</strong>
 
 ### App : le dashboard
 
-Ce dossier constitue l'interface utilisateur du projet. Son but est de transformer les données brutes stockées dans MongoDB en un tableau de bord visuel et interactif pour l'utilisateur final.
+Ce dossier constitue <strong>l'interface utilisateur du projet.</strong> Son but est de transformer les données brutes stockées dans MongoDB en un tableau de bord visuel et interactif pour l'utilisateur final.
 
 #### main.py : Fichier principal
 
@@ -94,10 +94,12 @@ C'est le fichier central qui gère l'affichage et l'interaction. Il remplit plus
 
 <strong>2</strong> - On récupère les données de la collection games et les transforme en un DataFrame pandas pour faciliter les manipulations.
 
-<strong>3</strong> - On définit une sidebar afin de filtrer par nom, prix, jeux en promotion ou encore les genres et afin afficher les données qui nous intéressent. Le script génère également des indicateurs clés comme le prix moyen et le nombre total de jeux, ainsi que des graphiques interactifs <i>(via plotly)</i> pour montrer la répartition par genre et la distribution des prix. 
+<strong>3</strong> - On définit une sidebar afin de filtrer par nom, prix, jeux en promotion ou encore leurs genres, afin d'afficher les données qui nous intéressent. Le script génère également des indicateurs clés comme le prix moyen et le nombre total de jeux, ainsi que des graphiques interactifs <i>(via plotly)</i> pour montrer la répartition par genre et la distribution des prix en fonction des jeux sélectionnés. 
 
 
-<i><strong>==> L'objectif principal de ce dossier est de fournir une expérience utilisateur fluide. Alors que le scraper s'occupe de la technique et de la donnée brute, ce module app se concentre sur la valeur métier : permettre à un utilisateur de trouver rapidement les meilleures promotions ou les jeux d'un genre spécifique parmi des centaines d'entrées.</strong></i>
+<strong>==> L'objectif principal de ce dossier est de fournir une expérience utilisateur fluide. Alors que le scraper s'occupe de la technique et de la donnée brute, ce module app se concentre sur la valeur métier : permettre à un utilisateur de trouver rapidement les meilleures promotions ou les jeux d'un genre spécifique parmi des centaines d'entrées.</strong>
+
+<i>P.S. : Sur l'interface, les images scrapés peuvent apparaître en format mini. Cliquez seulement dessus et vous obtenez le grand format. </i>
 
 ## Bonus : Docker-compose
 
@@ -107,4 +109,4 @@ C'est pourquoi on décide d'ajouter un fichier <strong>docker-compose</strong>. 
 
 On fait alors appel au différents services : mongo pour la base de données, scraper pour extraire, et app pour lancer le dashboard. 
 
-Avec cette structure, votre projet répond parfaitement aux exigences professionnelles : isolation, reproductibilité et facilité de déploiement.
+Avec cette structure, notre projet répond parfaitement aux exigences professionnelles : <strong>isolation, reproductibilité et facilité de déploiement.</strong>
